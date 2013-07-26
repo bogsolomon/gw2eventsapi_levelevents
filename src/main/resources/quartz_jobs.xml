@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<job-scheduling-data xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_1_8.xsd"
+  version="1.8">
+    <schedule>
+        <job>
+            <name>NewFileScannerJob</name>
+            <group>NewFileScannerGroup</group>
+
+            <description>The job description</description>
+            <job-class>ca.bsolomon.gw2events.level.NewFileScannerJob</job-class>
+        </job>
+
+        <trigger>
+            <cron>
+                <name>NewFileScannerTrigger</name>
+                <group>NewFileScannerTriggerGroup</group>
+                <job-name>NewFileScannerJob</job-name>
+
+                <job-group>NewFileScannerGroup</job-group>
+                <cron-expression>0 0/5 * * * ?</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    
+    <schedule>
+        <job>
+            <name>ApiQueryJob</name>
+            <group>ApiQueryGroup</group>
+
+            <description>The job description</description>
+            <job-class>ca.bsolomon.gw2events.level.ApiQueryJob</job-class>
+        </job>
+
+        <trigger>
+            <cron>
+                <name>ApiQueryTrigger</name>
+                <group>ApiQueryTriggerGroup</group>
+                <job-name>ApiQueryJob</job-name>
+
+                <job-group>ApiQueryGroup</job-group>
+                <cron-expression>0 * * * * ?</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+</job-scheduling-data>
