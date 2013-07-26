@@ -143,7 +143,7 @@ public class ApiQueryJob implements Job {
 			for (EventCondition condition:conditions) {
 				String combinedId = servId.getUid()+"-"+condition.getEventId();
 				
-				if (data.get(combinedId).equals(condition.getState())) {
+				if (data.get(combinedId)!=null && data.get(combinedId).equals(condition.getState())) {
 					conditionMet = true;
 					break;
 				}
@@ -190,7 +190,7 @@ public class ApiQueryJob implements Job {
 			for (EventCondition condition:conditions) {
 				String combinedId = servId.getUid()+"-"+condition.getEventId();
 				
-				if (data.get(combinedId).equals(condition.getState())) {
+				if (data.get(combinedId)!= null && data.get(combinedId).equals(condition.getState())) {
 					conditionMet = true;
 					break;
 				}
@@ -238,7 +238,7 @@ public class ApiQueryJob implements Job {
 			for (EventCondition condition:conditions) {
 				String combinedId = servId.getUid()+"-"+condition.getEventId();
 				
-				if (data.get(combinedId).equals(condition.getState())) {
+				if (data.get(combinedId)!= null && data.get(combinedId).equals(condition.getState())) {
 					conditionMet = true;
 					break;
 				}
@@ -260,7 +260,7 @@ public class ApiQueryJob implements Job {
 			for (EventCondition condition:conditions) {
 				String combinedId = servId.getUid()+"-"+condition.getEventId();
 				
-				if (!data.get(combinedId).equals(condition.getState())) {
+				if (data.get(combinedId)== null || !data.get(combinedId).equals(condition.getState())) {
 					conditionMet = false;
 					break;
 				}

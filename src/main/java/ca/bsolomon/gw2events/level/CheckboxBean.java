@@ -45,8 +45,12 @@ public class CheckboxBean {
 		serverTwo = ApiQueryJob.serverEvents.get(SBI_ServID);
 		serverThree = ApiQueryJob.serverEvents.get(MAGUM_ServID);
 		
-		for (LiveEventState states:serverOne.getEventChains()) {
-			events.put(states.getEvent(), states.getEvent());
+		if (ApiQueryJob.serverEvents.size() > 0) {
+			for (LiveEventState states:ApiQueryJob.serverEvents.get(0).getEventChains()) {
+				events.put(states.getEvent(), states.getEvent());
+			}	
+		} else {
+			events = new LinkedHashMap<>();
 		}
     }
 	
