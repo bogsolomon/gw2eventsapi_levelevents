@@ -97,7 +97,7 @@ public final class LiveEventState {
 	public String getDuration() {
 		DateTime now = new DateTime(gregorianJuian);
 		
-		Period period = new Period(date, now);
+		Period period = new Period(updateDate, now);
 		
 		return HHMMSSFormater.print(period);
 	}

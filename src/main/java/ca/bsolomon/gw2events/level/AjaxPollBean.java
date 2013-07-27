@@ -29,9 +29,14 @@ public class AjaxPollBean {
 	private Server serv3;
 	
 	public void updateEventStatus(DataTable serv1Table, DataTable serv2Table, DataTable serv3Table) {
-		for (LiveEventState status:serv1.getEventChains()) {
-			if (!checkboxBean.getSelectedEvents().contains(status.getEvent())) {
-				checkServerEvent(serv1Table, serv2Table, serv3Table, status.getEvent());
+		if (serv1 == null)
+			serv1 = checkboxBean.getServerOne();
+				
+		if (serv1 != null) {
+			for (LiveEventState status:serv1.getEventChains()) {
+				if (!checkboxBean.getSelectedEvents().contains(status.getEvent())) {
+					checkServerEvent(serv1Table, serv2Table, serv3Table, status.getEvent());
+				}
 			}
 		}
 	}

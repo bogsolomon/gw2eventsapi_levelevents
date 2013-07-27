@@ -26,15 +26,15 @@
         <h:form id="form">
             	
             <p:poll interval="60"   
-            	listener="#{ajaxPollBean.updateEventStatus(serv1TempleTable, serv2TempleTable, serv3TempleTable)}" 
+            	listener="#{ajaxPollBean.updateEventStatus(serv1Table, serv2Table, serv3Table)}" 
             	widgetVar="pollTemple" autoStart="true"/>
             	
         	<p:dashboard id="board" model="#{serverDashboardBean.model}">
         		  <p:ajax event="reorder"/>
         		 
-        		  <p:panel id="serv1TemplePanel" header="#{checkboxBean.serverOne.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv1Collapsed}">
+        		  <p:panel id="serv1Panel" header="#{checkboxBean.serverOne.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv1Collapsed}">
         		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ1Toggle}"/>
-        		 	<p:dataTable binding="#{serv1TempleTable}" var="status" value="#{dragonBean.serv1TempleStatus}" styleClass="hide-column-names" rowStyleClass="#{status.color}">
+        		 	<p:dataTable binding="#{serv1Table}" var="status" value="#{levelEventBean.serv1Status}" styleClass="hide-column-names">
         		 		<p:column>  
 				            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
 				        </p:column>  
@@ -42,20 +42,17 @@
 				            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 				        </p:column>
 				        <p:column styleClass="dateColumn">  
-				            <h:panelGroup id="dateCol">#{status.date}</h:panelGroup>
+				            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
 				        </p:column>
 				        <p:column styleClass="clipboard">
 				        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
 				        </p:column>
-				        <p:column styleClass="soundClass">
-				        	<h:panelGroup id="soundCol">#{status.playSound}</h:panelGroup>
-				        </p:column>
         		 	</p:dataTable>
         		 </p:panel>
         		 
-        		 <p:panel id="serv2TemplePanel" header="#{checkboxBean.serverTwo.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv2Collapsed}">
+        		 <p:panel id="serv2Panel" header="#{checkboxBean.serverTwo.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv2Collapsed}">
         		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ2Toggle}"/>
-        		 	<p:dataTable binding="#{serv2TempleTable}" var="status" value="#{dragonBean.serv2TempleStatus}" styleClass="hide-column-names" rowStyleClass="#{status.color}">
+        		 	<p:dataTable binding="#{serv2Table}" var="status" value="#{levelEventBean.serv2Status}" styleClass="hide-column-names">
         		 		<p:column>  
 				            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
 				        </p:column>  
@@ -63,20 +60,17 @@
 				            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 				        </p:column>
 				        <p:column styleClass="dateColumn">  
-				            <h:panelGroup id="dateCol">#{status.date}</h:panelGroup>
+				            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
 				        </p:column>
 				        <p:column styleClass="clipboard">
 				        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
-				        </p:column>
-				        <p:column styleClass="soundClass">
-				        	<h:panelGroup id="soundCol">#{status.playSound}</h:panelGroup>
 				        </p:column>
         		 	</p:dataTable>
         		 </p:panel>
         		 
-        		 <p:panel id="serv3TemplePanel" header="#{checkboxBean.serverThree.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv3Collapsed}">
+        		 <p:panel id="serv3Panel" header="#{checkboxBean.serverThree.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv3Collapsed}">
         		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ3Toggle}"/>
-        		 	<p:dataTable binding="#{serv3TempleTable}" var="status" value="#{dragonBean.serv3TempleStatus}" styleClass="hide-column-names" rowStyleClass="#{status.color}">
+        		 	<p:dataTable binding="#{serv3Table}" var="status" value="#{levelEventBean.serv3Status}" styleClass="hide-column-names">
         		 		<p:column>  
 				            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
 				        </p:column>  
@@ -84,13 +78,10 @@
 				            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 				        </p:column>
 				        <p:column styleClass="dateColumn">  
-				            <h:panelGroup id="dateCol">#{status.date}</h:panelGroup>
+				            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
 				        </p:column>
 				        <p:column styleClass="clipboard">
 				        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
-				        </p:column>
-				        <p:column styleClass="soundClass">
-				        	<h:panelGroup id="soundCol">#{status.playSound}</h:panelGroup>
 				        </p:column>
         		 	</p:dataTable>
         		 </p:panel>
@@ -103,25 +94,25 @@
         		<p:selectManyCheckbox value="#{checkboxBean.selectedEvents}"  
 		            layout="pageDirection" id="smcb">  
 		            <f:selectItems value="#{checkboxBean.events}" />
-		            <p:ajax listener="#{checkboxBean.handleCheckbox(serv1TempleTable, serv2TempleTable, serv3TempleTable)}"/> 
+		            <p:ajax listener="#{checkboxBean.handleCheckbox(serv1Table, serv2Table, serv3Table)}"/> 
 		        </p:selectManyCheckbox>
 		        <p:commandButton value="Clear All" update="smcb" id="ajax"  
-             			actionListener="#{checkboxBean.clearAll(serv1TempleTable, serv2TempleTable, serv3TempleTable)}">
+             			actionListener="#{checkboxBean.clearAll(serv1Table, serv2Table, serv3Table)}">
 		        </p:commandButton>
 		        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 		        	<h:outputText value="Server 1: " />  
 			        <p:selectOneMenu id="serv1SM" value="#{checkboxBean.serverOne}" converter="serverConverter">
-			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv1TemplePanel, :checkboxes:serv1SM"/>
+			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv1Panel, :checkboxes:serv1SM"/>
 			        	<f:selectItems value="#{checkboxBean.serverIds}" var="server" itemLabel="#{server.serverName}" itemValue="#{server}"/>  
 			        </p:selectOneMenu>
 			        <h:outputText value="Server 2: " />  
 			        <p:selectOneMenu id="serv2SM" value="#{checkboxBean.serverTwo}" converter="serverConverter">
-			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv2TemplePanel, :checkboxes:serv2SM" />
+			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv2Panel, :checkboxes:serv2SM" />
 			        	<f:selectItems value="#{checkboxBean.serverIds}" var="server" itemLabel="#{server.serverName}" itemValue="#{server}"/>  
 			        </p:selectOneMenu>
 			        <h:outputText value="Server 3: " />  
 			        <p:selectOneMenu id="serv3SM" value="#{checkboxBean.serverThree}" converter="serverConverter">
-			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv3TemplePanel, :checkboxes:serv3SM" />
+			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv3Panel, :checkboxes:serv3SM" />
 			        	<f:selectItems value="#{checkboxBean.serverIds}" var="server" itemLabel="#{server.serverName}" itemValue="#{server}"/>  
 			        </p:selectOneMenu>
 			        

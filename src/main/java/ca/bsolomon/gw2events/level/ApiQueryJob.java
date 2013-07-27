@@ -107,12 +107,21 @@ public class ApiQueryJob implements Job {
 				int index = serv.getEventChains().indexOf(searchState);
 				LiveEventState oldState = serv.getEventChains().get(index);
 				
-				if (!oldState.getDate().equals(time)) {
+				if (!oldState.getDate().equals(time) && !oldState.getStatus().equals("Not up")) {
 					LiveEventState newState = new LiveEventState("Not up", time, 
 							chain.getChainName(), "", -1);
 					newState.setUpdateDate(time);
 					
 					serv.getEventChains().set(index, newState);
+				}
+			} else {
+				if (serv == null) {
+					serverEvents.put(servId.getUid(), new Server(servId));
+				} else {
+					LiveEventState newState = new LiveEventState("Not up", time, 
+							chain.getChainName(), "", -1);
+					newState.setUpdateDate(time);
+					serverEvents.get(servId.getUid()).getEventChains().add(newState);
 				}
 			}
 		}
@@ -209,7 +218,7 @@ public class ApiQueryJob implements Job {
 					int index = serv.getEventChains().indexOf(searchState);
 					LiveEventState oldState = serv.getEventChains().get(index);
 					
-					if (oldState.getEvent().equals(state.getOutputText())) {
+					if (oldState.getStatus().equals(state.getOutputText())) {
 						oldState.setCount(oldState.getCount()+1);
 					} else {
 						LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, "", state.getSequenceId());
@@ -292,8 +301,11 @@ public class ApiQueryJob implements Job {
 			
 			if (oldState.getStatus().equals(newState.getStatus())) {
 				newState.setUpdateDate(oldState.getDate());
-				serv.getEventChains().set(index, newState);
+			} else {
+				newState.setUpdateDate(time);
 			}
+			
+			serv.getEventChains().set(index, newState);
 		}
 	}
 

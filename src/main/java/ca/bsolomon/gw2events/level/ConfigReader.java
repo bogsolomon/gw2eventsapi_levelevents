@@ -59,12 +59,14 @@ public class ConfigReader {
 		try {
 			List<String> fileLines = Files.readAllLines(file, Charset.defaultCharset());
 			
-			String chainName = fileLines.get(0);
-			String mapId = fileLines.get(1);
-			
-			readInProcess = true;
-			generateChainData(chainName, mapId, fileLines.subList(2, fileLines.size()));
-			readInProcess = false;
+			if (fileLines!=null && fileLines.size() > 2) {
+				String chainName = fileLines.get(0);
+				String mapId = fileLines.get(1);
+				
+				readInProcess = true;
+				generateChainData(chainName, mapId, fileLines.subList(2, fileLines.size()));
+				readInProcess = false;
+			}
 		} catch (IOException e) {
 			System.out.println("File path: "+file+" read error: "+e.getLocalizedMessage());
 		}
@@ -79,6 +81,9 @@ public class ConfigReader {
 		EventChain chain = new EventChain(chainName, mapId, new ArrayList<EventState>());
 		
 		for (String eventStateStr:subList) {
+			if (eventStateStr.length() == 0)
+				continue;
+			
 			String[] splitString = eventStateStr.split("\\|");
 			ConditionType condType;
 			List<EventCondition> conditions = new ArrayList<>();

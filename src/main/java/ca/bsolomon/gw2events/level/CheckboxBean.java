@@ -46,7 +46,10 @@ public class CheckboxBean {
 		serverThree = ApiQueryJob.serverEvents.get(MAGUM_ServID);
 		
 		if (ApiQueryJob.serverEvents.size() > 0) {
-			for (LiveEventState states:ApiQueryJob.serverEvents.get(0).getEventChains()) {
+			Collection<Server> servers = ApiQueryJob.serverEvents.values();
+			Server server = servers.iterator().next();
+			
+			for (LiveEventState states:server.getEventChains()) {
 				events.put(states.getEvent(), states.getEvent());
 			}	
 		} else {
@@ -122,7 +125,10 @@ public class CheckboxBean {
 	}
 
 	public Server getServerOne() {
-		return serverOne;
+		if (serverOne != null)
+			return serverOne;
+		else
+			return ApiQueryJob.serverEvents.get(SOR_ServID);
 	}
 
 	public void setServerOne(Server server) {
@@ -133,7 +139,10 @@ public class CheckboxBean {
 	}
 
 	public Server getServerTwo() {
-		return serverTwo;
+		if (serverTwo != null)
+			return serverTwo;
+		else
+			return ApiQueryJob.serverEvents.get(SBI_ServID);
 	}
 
 	public void setServerTwo(Server server) {
@@ -143,7 +152,10 @@ public class CheckboxBean {
 	}
 
 	public Server getServerThree() {
-		return serverThree;
+		if (serverThree != null)
+			return serverThree;
+		else
+			return ApiQueryJob.serverEvents.get(MAGUM_ServID);
 	}
 
 	public void setServerThree(Server server) {

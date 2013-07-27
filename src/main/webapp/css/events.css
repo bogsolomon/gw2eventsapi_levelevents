@@ -1,0 +1,63 @@
+.ui-panel {
+	margin: 10px;
+}
+
+.ui-dashboard-column {
+	min-width:220px;
+}
+.ui-panel-collapsed-h .ui-panel-titlebar {
+	background:#003946;	
+}
+
+.ui-widget, .ui-widget .ui-widget
+{
+    font-size: 90% !important;
+}
+
+.ui-layout-north {
+    z-index:20 !important;
+    overflow:visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}
+
+.hide-column-names table thead tr {
+    display: none;
+}
+
+.red {
+	color: #999999;
+	background: #660000;
+	font-weight:bold;
+	font-size: 90% !important;
+}
+.yellow {
+	color: #999999;
+	background: #000066;
+	font-weight:bold;
+	font-size: 90% !important;
+}
+.green {
+	color: #000000;
+	background: #009933;
+	font-weight:bold;
+	font-size: 90% !important;
+}
+
+.clipbutton {
+	background-image: url(../resources/clipboard.png); /* 16px x 16px */
+	background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+    border: none;           /* assuming we don't want any borders */
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    height: 16px;           /* make this the size of your image */
+    padding-left: 16px;     /* make text start to the right of the image */
+    vertical-align: middle; /* align the text vertically centered */
+}
+
+.soundclass {
+	display: none;
+}

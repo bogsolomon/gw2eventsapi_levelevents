@@ -49,6 +49,6 @@ public class Server {
 	}
 	
 	public String getServerName() {
-		return GW2EventsAPI.worldIdToName.get(servId);
+		return servId.getName();
 	}
 }

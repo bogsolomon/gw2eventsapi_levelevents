@@ -1,6 +1,7 @@
 package ca.bsolomon.gw2events.level;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchEvent.Kind;
@@ -40,9 +41,11 @@ public class NewFileScannerJob implements Job {
 
 	                @SuppressWarnings("unchecked")
 					final WatchEvent<Path> watchEventPath = (WatchEvent<Path>)(watchEvent);
-	                final Path entry = watchEventPath.context();
-
-	                ConfigReader.parseFile(entry);
+	                
+	                Path dir = (Path)watchKey.watchable();
+	                final Path entry = dir.resolve(watchEventPath.context());
+	                
+	                ConfigReader.parseFile(entry.toAbsolutePath());
 	            }
 
 	            watchKey.reset();

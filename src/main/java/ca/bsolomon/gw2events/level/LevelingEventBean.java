@@ -1,5 +1,6 @@
 package ca.bsolomon.gw2events.level;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -23,18 +24,48 @@ public class LevelingEventBean {
 	public List<LiveEventState> getServ1Status() {
 		Server serv = checkboxBean.getServerOne();
 		
-		return serv.getEventChains();
+		List<LiveEventState> retStates = new ArrayList<>();
+		
+		if (serv!=null) {
+			for (LiveEventState event:serv.getEventChains()) {
+				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
+					retStates.add(event);
+				}
+			}
+		}
+		
+		return retStates;
 	}
 	
 	public List<LiveEventState> getServ2Status() {
 		Server serv = checkboxBean.getServerTwo();
 		
-		return serv.getEventChains();
+		List<LiveEventState> retStates = new ArrayList<>();
+		
+		if (serv!=null) {
+			for (LiveEventState event:serv.getEventChains()) {
+				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
+					retStates.add(event);
+				}
+			}
+		}
+		
+		return retStates;
 	}
 	
 	public List<LiveEventState> getServ3Status() {
 		Server serv = checkboxBean.getServerThree();
 		
-		return serv.getEventChains();
+		List<LiveEventState> retStates = new ArrayList<>();
+		
+		if (serv!=null) {
+			for (LiveEventState event:serv.getEventChains()) {
+				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
+					retStates.add(event);
+				}
+			}
+		}
+		
+		return retStates;
 	}
 }
