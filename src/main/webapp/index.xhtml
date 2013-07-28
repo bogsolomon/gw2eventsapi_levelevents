@@ -29,6 +29,10 @@
             	listener="#{ajaxPollBean.updateEventStatus(serv1Table, serv2Table, serv3Table)}" 
             	widgetVar="pollTemple" autoStart="true"/>
             	
+           	<p:poll interval="300"   
+            	listener="#{ajaxPollBean.updateEvents(checkBoxes)}" 
+            	widgetVar="pollEvents" autoStart="true"/>
+            	
         	<p:dashboard id="board" model="#{serverDashboardBean.model}">
         		  <p:ajax event="reorder"/>
         		 
@@ -92,7 +96,7 @@
         	closable="false" collapsible="true" resizable="true">
         	<h:form id="checkboxes">
         		<p:selectManyCheckbox value="#{checkboxBean.selectedEvents}"  
-		            layout="pageDirection" id="smcb">  
+		            layout="pageDirection" id="smcb" binding="#{checkBoxes}" >  
 		            <f:selectItems value="#{checkboxBean.events}" />
 		            <p:ajax listener="#{checkboxBean.handleCheckbox(serv1Table, serv2Table, serv3Table)}"/> 
 		        </p:selectManyCheckbox>

@@ -1,6 +1,5 @@
 package ca.bsolomon.gw2events.level;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -10,7 +9,7 @@ import javax.faces.bean.SessionScoped;
 
 import org.omnifaces.util.Ajax;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.panel.Panel;
+import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 
 import ca.bsolomon.gw2events.level.model.LiveEventState;
 import ca.bsolomon.gw2events.level.model.Server;
@@ -39,6 +38,12 @@ public class AjaxPollBean {
 				}
 			}
 		}
+	}
+	
+	public void updateEvents(SelectManyCheckbox checkbox) {
+		checkboxBean.updateEventList();
+		
+		Ajax.update(checkbox.getClientId());
 	}
 
 	private void checkServerEvent(DataTable serv1Table, DataTable serv2Table,

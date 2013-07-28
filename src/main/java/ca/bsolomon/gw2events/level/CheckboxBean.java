@@ -45,7 +45,13 @@ public class CheckboxBean {
 		serverTwo = ApiQueryJob.serverEvents.get(SBI_ServID);
 		serverThree = ApiQueryJob.serverEvents.get(MAGUM_ServID);
 		
+		updateEventList();
+    }
+
+	public void updateEventList() {
 		if (ApiQueryJob.serverEvents.size() > 0) {
+			events.clear();
+			
 			Collection<Server> servers = ApiQueryJob.serverEvents.values();
 			Server server = servers.iterator().next();
 			
@@ -55,7 +61,7 @@ public class CheckboxBean {
 		} else {
 			events = new LinkedHashMap<>();
 		}
-    }
+	}
 	
 	public void handleToggle(ToggleEvent event) {
 		if (((LayoutUnit)event.getComponent()).getPosition().equals("east")) {
