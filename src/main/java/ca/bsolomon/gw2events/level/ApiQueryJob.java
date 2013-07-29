@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.joda.time.Chronology;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -19,6 +16,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import ca.bsolomon.gw2event.api.GW2EventsAPI;
+import ca.bsolomon.gw2event.api.dao.Event;
 import ca.bsolomon.gw2events.level.model.ConditionType;
 import ca.bsolomon.gw2events.level.model.CountEventCondition;
 import ca.bsolomon.gw2events.level.model.EventChain;
@@ -52,15 +50,17 @@ public class ApiQueryJob implements Job {
 			List<String> mapIds = new ArrayList<>(ConfigReader.queriedMapIds);
 			
 			for (String mapId:mapIds) {
-				JSONArray data = api.queryMapEventStatus(mapId);
+				List<Event> data = api.queryMapEventStatus(mapId);
 				
 				Map<String, String> dataMap = new HashMap<>();
 				
 				for (int i=0;i<data.size();i++) {
-					JSONObject object = data.getJSONObject(i);
+					Event obj = data.get(i);
 					
-					if (object.getInt(WORLD_ID) < 2000) {
-						dataMap.put(object.getString(WORLD_ID)+"-"+object.getString(EVENT_ID), object.getString(STATE));
+					Integer worldId = Integer.parseInt(obj.getMapId());
+					
+					if (worldId < 2000) {
+						dataMap.put(obj.getWorldId()+"-"+obj.getEventId(), obj.getState());
 					}
 				}
 				
