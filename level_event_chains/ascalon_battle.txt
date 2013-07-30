@@ -1,8 +1,8 @@
 Battle for Ascalon
 19
-Ghost Control Points|Count|103A9605-77C8-45F8-B4FB-41267CF06B59:Active|0
-Ghost Control Points|Count|AE2117E9-85B0-4AFF-AC93-5013324B84BD:Active|0
-Ghost Control Points|Count|2126BA16-F7E0-4EAE-92E6-DE15E56223B7:Active|0
-Ghost Control Points|Count|29831120-98A2-46EE-AA15-8DC20D7CFD09:Active|0
-Ghost Control Points|CountEnd|4|0
-Kill Siegemaster|Or|723A755C-EFAC-48D8-9084-0BB9D228FF60:Active|0
+Ghost Control Points|Count|103A9605-77C8-45F8-B4FB-41267CF06B59:Active|0|[&BMgDAAA=]
+Ghost Control Points|Count|AE2117E9-85B0-4AFF-AC93-5013324B84BD:Active|0|[&BMgDAAA=]
+Ghost Control Points|Count|2126BA16-F7E0-4EAE-92E6-DE15E56223B7:Active|0|[&BMgDAAA=]
+Ghost Control Points|Count|29831120-98A2-46EE-AA15-8DC20D7CFD09:Active|0|[&BMgDAAA=]
+Ghost Control Points|CountEnd|4|0|[&BMgDAAA=]
+Kill Siegemaster|Or|723A755C-EFAC-48D8-9084-0BB9D228FF60:Active|0|[&BIcBAAA=]

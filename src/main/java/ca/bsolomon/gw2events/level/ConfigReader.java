@@ -117,7 +117,7 @@ public class ConfigReader {
 				parseEventStates(splitString[2], conditions);
 			}
 			
-			EventState state = new EventState(splitString[0], Integer.parseInt(splitString[3]), conditions, condType);
+			EventState state = new EventState(splitString[0], Integer.parseInt(splitString[3]), conditions, condType, splitString[4]);
 			chain.getEventStates().add(state);
 		}
 		
