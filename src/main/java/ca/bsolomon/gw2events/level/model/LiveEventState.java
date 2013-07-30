@@ -15,6 +15,7 @@ public final class LiveEventState {
 	private DateTime updateDate;
 	private final String event;
 	private final String waypoint;
+	private final String mapId;
 	private final int sequenceId;
 	private int count = 0;
 	
@@ -29,12 +30,13 @@ public final class LiveEventState {
 	
 	private int fHashCode;
 	
-	public LiveEventState(String status, DateTime date, String event, String waypoint, int sequenceId) {
+	public LiveEventState(String status, DateTime date, String event, String waypoint, int sequenceId, String mapId) {
 		this.status = status;
 		this.date = date;
 		this.event = event;
 		this.waypoint = waypoint;
 		this.sequenceId = sequenceId;
+		this.mapId = mapId;
 	}
 	
 	public String getEvent() {
@@ -92,6 +94,10 @@ public final class LiveEventState {
 
 	public void setUpdateDate(DateTime updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getMapId() {
+		return mapId;
 	}
 	
 	public String getDuration() {

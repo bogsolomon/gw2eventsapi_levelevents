@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import ca.bsolomon.gw2events.level.model.LiveEventState;
+import ca.bsolomon.gw2events.level.model.MapInfo;
 import ca.bsolomon.gw2events.level.model.Server;
 
 @ManagedBean(name="levelEventBean")
@@ -29,7 +30,14 @@ public class LevelingEventBean {
 		if (serv!=null) {
 			for (LiveEventState event:serv.getEventChains()) {
 				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
-					retStates.add(event);
+					MapInfo info = ConfigReader.maps.get(event.getMapId());
+					
+					if ((info.getLowLevelRange() >= checkboxBean.getLowLevelBound() &&
+							info.getLowLevelRange() <= checkboxBean.getHighLevelBound()) ||
+						(info.getHighLevelRange() >= checkboxBean.getLowLevelBound() &&
+								info.getHighLevelRange() <= checkboxBean.getHighLevelBound())) {
+						retStates.add(event);
+					}
 				}
 			}
 		}
@@ -45,7 +53,14 @@ public class LevelingEventBean {
 		if (serv!=null) {
 			for (LiveEventState event:serv.getEventChains()) {
 				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
-					retStates.add(event);
+					MapInfo info = ConfigReader.maps.get(event.getMapId());
+					
+					if ((info.getLowLevelRange() >= checkboxBean.getLowLevelBound() &&
+							info.getLowLevelRange() <= checkboxBean.getHighLevelBound()) ||
+						(info.getHighLevelRange() >= checkboxBean.getLowLevelBound() &&
+								info.getHighLevelRange() <= checkboxBean.getHighLevelBound())) {
+						retStates.add(event);
+					}
 				}
 			}
 		}
@@ -61,7 +76,14 @@ public class LevelingEventBean {
 		if (serv!=null) {
 			for (LiveEventState event:serv.getEventChains()) {
 				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
-					retStates.add(event);
+					MapInfo info = ConfigReader.maps.get(event.getMapId());
+					
+					if ((info.getLowLevelRange() >= checkboxBean.getLowLevelBound() &&
+							info.getLowLevelRange() <= checkboxBean.getHighLevelBound()) ||
+						(info.getHighLevelRange() >= checkboxBean.getLowLevelBound() &&
+								info.getHighLevelRange() <= checkboxBean.getHighLevelBound())) {
+						retStates.add(event);
+					}
 				}
 			}
 		}

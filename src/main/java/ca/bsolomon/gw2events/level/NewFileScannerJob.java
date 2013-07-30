@@ -45,7 +45,7 @@ public class NewFileScannerJob implements Job {
 	                Path dir = (Path)watchKey.watchable();
 	                final Path entry = dir.resolve(watchEventPath.context());
 	                
-	                ConfigReader.parseFile(entry.toAbsolutePath());
+	                ConfigReader.parseChainFile(entry.toAbsolutePath());
 	            }
 
 	            watchKey.reset();

@@ -37,6 +37,9 @@ public class CheckboxBean {
 
 	private int eastSize = 300;
     private boolean eastCollapsed;
+    
+    private int lowLevelBound = 0;
+    private int highLevelBound = 80;
 	
 	public CheckboxBean() {  
     	events = new LinkedHashMap<String, String>();  
@@ -110,6 +113,10 @@ public class CheckboxBean {
 		
 	}
 	
+	public void handleLevelRangeChange() {  
+		
+	}
+	
 	public void clearAll(DataTable serv1TempleTable, DataTable serv2TempleTable, DataTable serv3TempleTable) {  
 		selectedEvents.clear();
 		
@@ -168,5 +175,21 @@ public class CheckboxBean {
 		if (server.equals(serverOne) || server.equals(serverTwo))
 			return;
 		this.serverThree = server;
+	}
+
+	public int getLowLevelBound() {
+		return lowLevelBound;
+	}
+
+	public void setLowLevelBound(int lowLevelBound) {
+		this.lowLevelBound = lowLevelBound;
+	}
+
+	public int getHighLevelBound() {
+		return highLevelBound;
+	}
+
+	public void setHighLevelBound(int highLevelBound) {
+		this.highLevelBound = highLevelBound;
 	}
 }

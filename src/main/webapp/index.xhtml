@@ -25,7 +25,7 @@
     	<p:layoutUnit position="center" header="Events" resizable="true" closable="false" collapsible="false">       
         <h:form id="form">
             	
-            <p:poll interval="60"   
+            <p:poll interval="30"   
             	listener="#{ajaxPollBean.updateEventStatus(serv1Table, serv2Table, serv3Table)}" 
             	widgetVar="pollTemple" autoStart="true"/>
             	
@@ -103,6 +103,18 @@
 		        <p:commandButton value="Clear All" update="smcb" id="ajax"  
              			actionListener="#{checkboxBean.clearAll(serv1Table, serv2Table, serv3Table)}">
 		        </p:commandButton>
+		        <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+		        	<h:outputText value="Level Range: " />
+		        	<p:inputText id="lowLevelBound" value="#{checkboxBean.lowLevelBound}" size="10"
+		        		onkeypress="if (event.keyCode == 13) {jQuery('#lowLevelBound').trigger('change'); return false; }" >
+		        		<p:ajax event="change" update=":form:serv1Panel, :form:serv2Panel, :form:serv3Panel" listener="#{checkboxBean.handleLevelRangeChange}" />
+		        	</p:inputText>
+		        	<p:inputText id="highLevelBound" value="#{checkboxBean.highLevelBound}"  size="10"
+						onkeypress="if (event.keyCode == 13) {jQuery('#highLevelBound').trigger('change'); return false; }" >
+		        		<p:ajax event="change" update=":form:serv1Panel, :form:serv2Panel, :form:serv3Panel" listener="#{checkboxBean.handleLevelRangeChange}" />
+		        	</p:inputText>  
+		        </h:panelGrid>
+		        
 		        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 		        	<h:outputText value="Server 1: " />  
 			        <p:selectOneMenu id="serv1SM" value="#{checkboxBean.serverOne}" converter="serverConverter">

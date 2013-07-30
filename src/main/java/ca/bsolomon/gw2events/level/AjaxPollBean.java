@@ -12,6 +12,7 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 
 import ca.bsolomon.gw2events.level.model.LiveEventState;
+import ca.bsolomon.gw2events.level.model.MapInfo;
 import ca.bsolomon.gw2events.level.model.Server;
 
 @ManagedBean(name="ajaxPollBean")
@@ -34,7 +35,14 @@ public class AjaxPollBean {
 		if (serv1 != null) {
 			for (LiveEventState status:serv1.getEventChains()) {
 				if (!checkboxBean.getSelectedEvents().contains(status.getEvent())) {
-					checkServerEvent(serv1Table, serv2Table, serv3Table, status.getEvent());
+					MapInfo info = ConfigReader.maps.get(status.getMapId());
+					
+					if ((info.getLowLevelRange() >= checkboxBean.getLowLevelBound() &&
+							info.getLowLevelRange() <= checkboxBean.getHighLevelBound()) ||
+						(info.getHighLevelRange() >= checkboxBean.getLowLevelBound() &&
+								info.getHighLevelRange() <= checkboxBean.getHighLevelBound())) {
+						checkServerEvent(serv1Table, serv2Table, serv3Table, status.getEvent());
+					}
 				}
 			}
 		}

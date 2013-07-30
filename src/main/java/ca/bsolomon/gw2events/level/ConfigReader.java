@@ -12,21 +12,27 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.bsolomon.gw2events.level.model.ConditionType;
 import ca.bsolomon.gw2events.level.model.CountEventCondition;
 import ca.bsolomon.gw2events.level.model.EventChain;
 import ca.bsolomon.gw2events.level.model.EventCondition;
 import ca.bsolomon.gw2events.level.model.EventState;
+import ca.bsolomon.gw2events.level.model.MapInfo;
 import ca.bsolomon.gw2events.level.model.SequenceEventCondition;
 
 public class ConfigReader {
 
 	public static final List<EventChain> trackedChains = new ArrayList<>();
 	public static final List<String> queriedMapIds = new ArrayList<>(); 
+	public static final Map<String, MapInfo> maps = new HashMap<>();
 	
-	private static final String folderName = "level_event_chains";
+	private static final String chainFolderName = "level_event_chains";
+	private static final String mapFolderName = "map_data";
+	
 	public static Boolean readInProcess = false;
 	
 	private static boolean initRead = false;
@@ -34,11 +40,11 @@ public class ConfigReader {
 	private static WatchService watchService;
 	
 	public static void readConfigFiles() {
-		Path folderPath = Paths.get(folderName);
+		Path folderPath = Paths.get(chainFolderName);
 		
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(folderPath)) {
 			for (Path file: stream) {
-				parseFile(file);
+				parseChainFile(file);
 			}
 		} catch (IOException | DirectoryIteratorException x) {
 			System.out.println("File path: "+folderPath+" does not exist or is not directory.");
@@ -51,11 +57,37 @@ public class ConfigReader {
 			e.printStackTrace();
 		}
 		
+		folderPath = Paths.get(mapFolderName);
+		
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(folderPath)) {
+			for (Path file: stream) {
+				parseMapFile(file);
+			}
+		} catch (IOException | DirectoryIteratorException x) {
+			System.out.println("File path: "+folderPath+" does not exist or is not directory.");
+		}
 		
 		setInitRead(true);
 	}
 
-	public static void parseFile(Path file) {
+	private static void parseMapFile(Path file) {
+		try {
+			List<String> fileLines = Files.readAllLines(file, Charset.defaultCharset());
+			
+			if (fileLines!=null && fileLines.size() == 2) {
+				String mapId = fileLines.get(0);
+				String levelRange = fileLines.get(1);
+				
+				String[] levelRanges = levelRange.split("\\|");
+				
+				maps.put(mapId, new MapInfo(mapId, Integer.parseInt(levelRanges[0]), Integer.parseInt(levelRanges[1])));
+			}
+		} catch (IOException e) {
+			System.out.println("File path: "+file+" read error: "+e.getLocalizedMessage());
+		}
+	}
+
+	public static void parseChainFile(Path file) {
 		try {
 			List<String> fileLines = Files.readAllLines(file, Charset.defaultCharset());
 			
