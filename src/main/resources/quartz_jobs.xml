@@ -40,7 +40,7 @@
                 <job-name>ApiQueryJob</job-name>
 
                 <job-group>ApiQueryGroup</job-group>
-                <cron-expression>0 * * * * ?</cron-expression>
+                <cron-expression>0/30 * * * * ?</cron-expression>
             </cron>
         </trigger>
     </schedule>
