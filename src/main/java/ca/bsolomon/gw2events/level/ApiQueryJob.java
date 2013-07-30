@@ -180,7 +180,7 @@ public class ApiQueryJob implements Job {
 				LiveEventState oldState = serv.getEventChains().get(index);
 				
 				LiveEventState newState = new LiveEventState(oldState.getStatus()+": "+oldState.getCount()+"/"+maxCount, oldState.getDate(), 
-						oldState.getEvent(), oldState.getWaypoint(), oldState.getSequenceId());
+						oldState.getEvent(), state.getWaypoint(), oldState.getSequenceId());
 				newState.setCount(0);
 				newState.setUpdateDate(oldState.getUpdateDate());
 				
@@ -221,14 +221,14 @@ public class ApiQueryJob implements Job {
 					if (oldState.getStatus().equals(state.getOutputText())) {
 						oldState.setCount(oldState.getCount()+1);
 					} else {
-						LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, "", state.getSequenceId());
+						LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId());
 						newState.setCount(1);
 						newState.setUpdateDate(time);
 						
 						serv.getEventChains().set(index, newState);
 					}
 				} else {
-					LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, "", state.getSequenceId());
+					LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId());
 					newState.setCount(1);
 					newState.setUpdateDate(time);
 					serv.getEventChains().add(newState);
@@ -289,7 +289,7 @@ public class ApiQueryJob implements Job {
 		
 		Server serv = serverEvents.get(servId.getUid());
 		
-		LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, "", state.getSequenceId());
+		LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId());
 		
 		if (!serv.getEventChains().contains(newState)) {
 			newState.setUpdateDate(time);
