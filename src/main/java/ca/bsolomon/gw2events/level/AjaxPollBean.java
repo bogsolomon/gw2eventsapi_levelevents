@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.omnifaces.util.Ajax;
+import org.primefaces.component.accordionpanel.AccordionPanel;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 
@@ -28,7 +29,7 @@ public class AjaxPollBean {
 	private Server serv2;
 	private Server serv3;
 	
-	public void updateEventStatus(DataTable serv1Table, DataTable serv2Table, DataTable serv3Table) {
+	public void updateEventStatus(AccordionPanel serv1Table, AccordionPanel serv2Table, AccordionPanel serv3Table) {
 		if (serv1 == null)
 			serv1 = checkboxBean.getServerOne();
 				
@@ -54,8 +55,8 @@ public class AjaxPollBean {
 		Ajax.update(checkbox.getClientId());
 	}
 
-	private void checkServerEvent(DataTable serv1Table, DataTable serv2Table,
-			DataTable serv3Table, String event) {
+	private void checkServerEvent(AccordionPanel serv1Table, AccordionPanel serv2Table,
+			AccordionPanel serv3Table, String event) {
 		Server oldServ1 = serv1;
 		Server oldServ2 = serv2;
 		Server oldServ3 = serv3;
@@ -80,7 +81,7 @@ public class AjaxPollBean {
 			Ajax.update(serv3Table.getClientId());
 	}
 	
-	private void checkStatusUpdate(DataTable servTable,
+	private void checkStatusUpdate(AccordionPanel servTable,
 			String event, Server serv) {
 		boolean toUpdate = false;
 		//boolean toUpdateRow = false;

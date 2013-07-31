@@ -18,6 +18,7 @@ public final class LiveEventState {
 	private final String mapId;
 	private final int sequenceId;
 	private int count = 0;
+	private final boolean singleEvent;
 	
 	private static DateTimeZone zone = DateTimeZone.forID("America/New_York");
 	private static Chronology gregorianJuian = GJChronology.getInstance(zone);
@@ -30,13 +31,14 @@ public final class LiveEventState {
 	
 	private int fHashCode;
 	
-	public LiveEventState(String status, DateTime date, String event, String waypoint, int sequenceId, String mapId) {
+	public LiveEventState(String status, DateTime date, String event, String waypoint, int sequenceId, String mapId, boolean singleEvent) {
 		this.status = status;
 		this.date = date;
 		this.event = event;
 		this.waypoint = waypoint;
 		this.sequenceId = sequenceId;
 		this.mapId = mapId;
+		this.singleEvent = singleEvent;
 	}
 	
 	public String getEvent() {
@@ -106,5 +108,9 @@ public final class LiveEventState {
 		Period period = new Period(updateDate, now);
 		
 		return HHMMSSFormater.print(period);
+	}
+
+	public boolean isSingleEvent() {
+		return singleEvent;
 	}
 }

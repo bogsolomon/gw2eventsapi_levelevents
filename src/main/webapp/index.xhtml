@@ -38,71 +38,68 @@
         		 
         		  <p:panel id="serv1Panel" header="#{checkboxBean.serverOne.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv1Collapsed}">
         		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ1Toggle}"/>
-        		 	<p:dataTable binding="#{serv1Table}" var="mapEvents" value="#{levelEventBean.serv1Status}" styleClass="hide-column-names">
-        		 		<p:subTable var="status" value="#{mapEvents.events}" rowStyleClass="#{status.status == 'Not up' ? 'red' : 'green'}">
-        		 			<f:facet name="header">  
-				              #{mapEvents.mapName}   
-				            </f:facet>    
-	        		 		<p:column>  
-					            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
-					        </p:column>  
-					        <p:column>  
-					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
-					        </p:column>
-					        <p:column styleClass="dateColumn">  
-					            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
-					        </p:column>
-					        <p:column styleClass="clipboard">
-					        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
-					        </p:column>
-				    	</p:subTable>
-        		 	</p:dataTable>
+        		 	<p:accordionPanel binding="#{serv1Table}" var="mapEvents" value="#{levelEventBean.serv1Status}" multiple="true">
+	        		 	<p:tab title="#{mapEvents.mapName}">   
+				            <p:dataTable var="status" value="#{mapEvents.events}" rowStyleClass="#{status.status == 'Not up' ? 'red' : 'green'}" styleClass="hide-column-names">
+	        		 			<p:column>  
+						            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
+						        </p:column>  
+						        <p:column>  
+						            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
+						        </p:column>
+						        <p:column styleClass="dateColumn">  
+						            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
+						        </p:column>
+						        <p:column styleClass="clipboard">
+						        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+						        </p:column>
+				    		</p:dataTable>
+			    		</p:tab>
+        		 	</p:accordionPanel>
         		 </p:panel>
         		 
         		 <p:panel id="serv2Panel" header="#{checkboxBean.serverTwo.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv2Collapsed}">
         		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ2Toggle}"/>
-        		 	<p:dataTable binding="#{serv2Table}" var="mapEvents" value="#{levelEventBean.serv2Status}" styleClass="hide-column-names">
-        		 		<p:subTable var="status" value="#{mapEvents.events}" rowStyleClass="#{status.status == 'Not up' ? 'red' : 'green'}">
-        		 			<f:facet name="header">  
-				            	#{mapEvents.mapName}   
-				            </f:facet>    
-	        		 		<p:column>  
-					            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
-					        </p:column>  
-					        <p:column>  
-					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
-					        </p:column>
-					        <p:column styleClass="dateColumn">  
-					            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
-					        </p:column>
-					        <p:column styleClass="clipboard">
-					        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
-					        </p:column>
-				    	</p:subTable>
-        		 	</p:dataTable>
+        		 	<p:accordionPanel binding="#{serv2Table}" var="mapEvents" value="#{levelEventBean.serv2Status}" multiple="true">
+        		 		<p:tab title="#{mapEvents.mapName}">   
+				            <p:dataTable var="status" value="#{mapEvents.events}" rowStyleClass="#{status.status == 'Not up' ? 'red' : 'green'}" styleClass="hide-column-names">
+	        		 			<p:column>  
+						            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
+						        </p:column>  
+						        <p:column>  
+						            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
+						        </p:column>
+						        <p:column styleClass="dateColumn">  
+						            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
+						        </p:column>
+						        <p:column styleClass="clipboard">
+						        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+						        </p:column>
+				    		</p:dataTable>
+			    		</p:tab>
+        		 	</p:accordionPanel>
         		 </p:panel>
         		 
         		 <p:panel id="serv3Panel" header="#{checkboxBean.serverThree.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv3Collapsed}">
         		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ3Toggle}"/>
-        		 	<p:dataTable binding="#{serv3Table}" var="mapEvents" value="#{levelEventBean.serv3Status}" styleClass="hide-column-names">
-        		 		<p:subTable var="status" value="#{mapEvents.events}"  rowStyleClass="#{status.status == 'Not up' ? 'red' : 'green'}">
-        		 			<f:facet name="header">  
-				              #{mapEvents.mapName}   
-				            </f:facet>    
-	        		 		<p:column>  
-					            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
-					        </p:column>  
-					        <p:column>  
-					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
-					        </p:column>
-					        <p:column styleClass="dateColumn">  
-					            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
-					        </p:column>
-					        <p:column styleClass="clipboard">
-					        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
-					        </p:column>
-				    	</p:subTable>
-        		 	</p:dataTable>
+        		 	<p:accordionPanel binding="#{serv3Table}" var="mapEvents" value="#{levelEventBean.serv3Status}" multiple="true">
+        		 		<p:tab title="#{mapEvents.mapName}">   
+				            <p:dataTable var="status" value="#{mapEvents.events}" rowStyleClass="#{status.status == 'Not up' ? 'red' : 'green'}" styleClass="hide-column-names">
+	        		 			<p:column>  
+						            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
+						        </p:column>  
+						        <p:column>  
+						            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
+						        </p:column>
+						        <p:column styleClass="dateColumn">  
+						            <h:panelGroup id="dateCol">#{status.duration}</h:panelGroup>
+						        </p:column>
+						        <p:column styleClass="clipboard">
+						        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+						        </p:column>
+				    		</p:dataTable>
+			    		</p:tab>
+        		 	</p:accordionPanel>
         		 </p:panel>
         	</p:dashboard>
         </h:form>
@@ -120,11 +117,11 @@
 		        </p:commandButton>
 		        <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
 		        	<h:outputText value="Level Range: " />
-		        	<p:inputText id="lowLevelBound" value="#{checkboxBean.lowLevelBound}" size="10"
+		        	<p:inputText id="lowLevelBound" value="#{checkboxBean.lowLevelBound}" size="5"
 		        		onkeypress="if (event.keyCode == 13) {jQuery('#lowLevelBound').trigger('change'); return false; }" >
 		        		<p:ajax event="change" update=":form:serv1Panel, :form:serv2Panel, :form:serv3Panel" listener="#{checkboxBean.handleLevelRangeChange}" />
 		        	</p:inputText>
-		        	<p:inputText id="highLevelBound" value="#{checkboxBean.highLevelBound}"  size="10"
+		        	<p:inputText id="highLevelBound" value="#{checkboxBean.highLevelBound}"  size="5"
 						onkeypress="if (event.keyCode == 13) {jQuery('#highLevelBound').trigger('change'); return false; }" >
 		        		<p:ajax event="change" update=":form:serv1Panel, :form:serv2Panel, :form:serv3Panel" listener="#{checkboxBean.handleLevelRangeChange}" />
 		        	</p:inputText>  

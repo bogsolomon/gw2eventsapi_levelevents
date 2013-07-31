@@ -10,9 +10,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import org.omnifaces.util.Ajax;
+import org.primefaces.component.accordionpanel.AccordionPanel;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.layout.LayoutUnit;
+import org.primefaces.component.tabview.Tab;
 import org.primefaces.event.ResizeEvent;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 
@@ -40,6 +43,7 @@ public class CheckboxBean {
     
     private int lowLevelBound = 0;
     private int highLevelBound = 80;
+    //private String serv1SelectedTab ="";
 	
 	public CheckboxBean() {  
     	events = new LinkedHashMap<String, String>();  
@@ -103,7 +107,7 @@ public class CheckboxBean {
 		this.events = events;
 	}  
 	
-	public void handleCheckbox(DataTable serv1TempleTable, DataTable serv2TempleTable, DataTable serv3TempleTable) {
+	public void handleCheckbox(AccordionPanel serv1TempleTable, AccordionPanel serv2TempleTable, AccordionPanel serv3TempleTable) {
 		Ajax.update(serv1TempleTable.getClientId());
 		Ajax.update(serv2TempleTable.getClientId());
 		Ajax.update(serv3TempleTable.getClientId());
@@ -116,8 +120,12 @@ public class CheckboxBean {
 	public void handleLevelRangeChange() {  
 		
 	}
+				
+	public void onTabChange(TabChangeEvent event) {
+		
+	}
 	
-	public void clearAll(DataTable serv1TempleTable, DataTable serv2TempleTable, DataTable serv3TempleTable) {  
+	public void clearAll(AccordionPanel serv1TempleTable, AccordionPanel serv2TempleTable, AccordionPanel serv3TempleTable) {  
 		selectedEvents.clear();
 		
 		Ajax.update(serv1TempleTable.getClientId());
