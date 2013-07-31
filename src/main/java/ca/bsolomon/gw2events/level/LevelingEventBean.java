@@ -1,13 +1,16 @@
 package ca.bsolomon.gw2events.level;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import ca.bsolomon.gw2event.api.GW2EventsAPI;
 import ca.bsolomon.gw2events.level.model.LiveEventState;
+import ca.bsolomon.gw2events.level.model.MapEvents;
 import ca.bsolomon.gw2events.level.model.MapInfo;
 import ca.bsolomon.gw2events.level.model.Server;
 
@@ -22,57 +25,43 @@ public class LevelingEventBean {
 		this.checkboxBean = checkboxBean;
 	}
 	
-	public List<LiveEventState> getServ1Status() {
+	public List<MapEvents> getServ1Status() {
 		Server serv = checkboxBean.getServerOne();
 		
-		List<LiveEventState> retStates = new ArrayList<>();
+		List<MapEvents> retStates = new ArrayList<>();
 		
-		if (serv!=null) {
-			for (LiveEventState event:serv.getEventChains()) {
-				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
-					MapInfo info = ConfigReader.maps.get(event.getMapId());
-					
-					if ((info.getLowLevelRange() >= checkboxBean.getLowLevelBound() &&
-							info.getLowLevelRange() <= checkboxBean.getHighLevelBound()) ||
-						(info.getHighLevelRange() >= checkboxBean.getLowLevelBound() &&
-								info.getHighLevelRange() <= checkboxBean.getHighLevelBound())) {
-						retStates.add(event);
-					}
-				}
-			}
-		}
+		getServerStates(serv, retStates);
+		
+		Collections.sort(retStates);
 		
 		return retStates;
 	}
-	
-	public List<LiveEventState> getServ2Status() {
+
+	public List<MapEvents> getServ2Status() {
 		Server serv = checkboxBean.getServerTwo();
 		
-		List<LiveEventState> retStates = new ArrayList<>();
+		List<MapEvents> retStates = new ArrayList<>();
 		
-		if (serv!=null) {
-			for (LiveEventState event:serv.getEventChains()) {
-				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
-					MapInfo info = ConfigReader.maps.get(event.getMapId());
-					
-					if ((info.getLowLevelRange() >= checkboxBean.getLowLevelBound() &&
-							info.getLowLevelRange() <= checkboxBean.getHighLevelBound()) ||
-						(info.getHighLevelRange() >= checkboxBean.getLowLevelBound() &&
-								info.getHighLevelRange() <= checkboxBean.getHighLevelBound())) {
-						retStates.add(event);
-					}
-				}
-			}
-		}
+		getServerStates(serv, retStates);
+		
+		Collections.sort(retStates);
 		
 		return retStates;
 	}
 	
-	public List<LiveEventState> getServ3Status() {
+	public List<MapEvents> getServ3Status() {
 		Server serv = checkboxBean.getServerThree();
 		
-		List<LiveEventState> retStates = new ArrayList<>();
+		List<MapEvents> retStates = new ArrayList<>();
 		
+		getServerStates(serv, retStates);
+		
+		Collections.sort(retStates);
+		
+		return retStates;
+	}
+	
+	private void getServerStates(Server serv, List<MapEvents> retStates) {
 		if (serv!=null) {
 			for (LiveEventState event:serv.getEventChains()) {
 				if (!checkboxBean.getSelectedEvents().contains(event.getEvent())) {
@@ -82,12 +71,27 @@ public class LevelingEventBean {
 							info.getLowLevelRange() <= checkboxBean.getHighLevelBound()) ||
 						(info.getHighLevelRange() >= checkboxBean.getLowLevelBound() &&
 								info.getHighLevelRange() <= checkboxBean.getHighLevelBound())) {
-						retStates.add(event);
+						String mapName = GW2EventsAPI.mapIdToName.get(info.getMapId());
+						
+						boolean added = false;
+						
+						for (MapEvents mapEvent:retStates) {
+							if (mapEvent.getMapName().equals(mapName)) {
+								mapEvent.getEvents().add(event);
+								added = true;
+								break;
+							}
+						}
+						
+						if (!added) {
+							MapEvents mapEvent = new MapEvents(mapName);
+							mapEvent.getEvents().add(event);
+							
+							retStates.add(mapEvent);
+						}
 					}
 				}
 			}
 		}
-		
-		return retStates;
 	}
 }

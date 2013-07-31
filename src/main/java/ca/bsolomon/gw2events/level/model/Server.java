@@ -3,8 +3,6 @@ package ca.bsolomon.gw2events.level.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.bsolomon.gw2event.api.GW2EventsAPI;
-
 public class Server {
 
 	private final ServerID servId;
