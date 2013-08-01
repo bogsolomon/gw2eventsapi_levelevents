@@ -67,6 +67,7 @@ public final class LiveEventState {
 	    
 	    return false;
 	}
+	
 	@Override
 	public int hashCode() {
 		if (fHashCode == 0) {
@@ -112,5 +113,15 @@ public final class LiveEventState {
 
 	public boolean isSingleEvent() {
 		return singleEvent;
+	}
+	
+	public String getColor() {
+		if (status.length() == 0) {
+			return "blue";
+		} else if (status.equals("Not up")) {
+			return "red";
+		} else {
+			return "green";
+		}
 	}
 }
