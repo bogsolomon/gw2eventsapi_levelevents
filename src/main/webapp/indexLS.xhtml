@@ -1,0 +1,138 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Leveling Events Tracker</title>
+        <link rel="stylesheet" type="text/css" href="css/events.css"/>
+        <script src="script/datetime.js"></script>
+        <script src="script/clipboard.js"></script>
+        <script src="script/ZeroClipboard.js"></script>
+        <script  type="text/javascript">
+		function startTime()
+		{
+			updateServerTimes();
+			updatePositions();
+			t=setTimeout(function(){startTime()},1000);
+		}
+		</script>
+    </h:head>
+    <h:body onload="startTime(); createClipboards();">
+    	<p:layout fullPage="true">
+    	<p:ajax event="resize" listener="#{checkboxBean.handleResize}"/>
+    	<p:ajax event="toggle" listener="#{checkboxBean.handleToggle}"/>
+    	<p:layoutUnit position="center" header="Events" resizable="true" closable="false" collapsible="false">       
+        <h:form id="form">
+            	
+            <p:poll interval="30"   
+            	listener="#{ajaxPollTree.updateEventStatus(serv1Table, serv2Table, serv3Table, false)}" 
+            	widgetVar="pollTemple" autoStart="true"/>
+            	
+        	<p:dashboard id="board" model="#{serverDashboardBean.model}">
+        		  <p:ajax event="reorder"/>
+        		 
+        		  <p:panel id="serv1Panel" header="#{checkboxBean.serverOne.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv1Collapsed}">
+        		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ1Toggle}"/>
+        		 	<p:treeTable value="#{lsEventTree.serv1Tree}" var="status" id="serv1Tree" binding="#{serv1Table}" 
+                 		rowStyleClass="#{status.color}" styleClass="hide-column-names">
+                 			<p:ajax event="expand" listener="#{lsEventTree.onServ1NodeExpand}"/>  
+        					<p:ajax event="collapse" listener="#{lsEventTree.onServ1NodeCollapse}"/> 
+                 		 
+        		 			<p:column>  
+					            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
+					        </p:column>  
+					        <p:column>  
+					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
+					        </p:column>
+					        <p:column styleClass="clipboard">
+					        	<button data-clipboard-text="#{status.event} - #{checkboxBean.serverOne.serverName} - #{status.waypoint}" class="clipbutton"></button>
+					        </p:column>
+        		 	</p:treeTable>
+        		 </p:panel>
+        		 
+        		 <p:panel id="serv2Panel" header="#{checkboxBean.serverTwo.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv2Collapsed}">
+        		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ2Toggle}"/>
+        		 	<p:treeTable value="#{lsEventTree.serv2Tree}" var="status" id="serv2Tree" binding="#{serv2Table}" 
+                 		rowStyleClass="#{status.color}" styleClass="hide-column-names">
+                 			<p:ajax event="expand" listener="#{lsEventTree.onServ2NodeExpand}"/>  
+        					<p:ajax event="collapse" listener="#{lsEventTree.onServ2NodeCollapse}"/> 
+                 		 
+        		 			<p:column>  
+					            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
+					        </p:column>  
+					        <p:column>  
+					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
+					        </p:column>
+					        <p:column styleClass="clipboard">
+					        	<button data-clipboard-text="#{status.event} - #{checkboxBean.serverTwo.serverName} - #{status.waypoint}" class="clipbutton"></button>
+					        </p:column>
+        		 	</p:treeTable>
+        		 </p:panel>
+        		 
+        		 <p:panel id="serv3Panel" header="#{checkboxBean.serverThree.serverName}" toggleable="true" collapsed="#{serverDashboardBean.serv3Collapsed}">
+        		 	<p:ajax event="toggle" listener="#{serverDashboardBean.handleServ3Toggle}"/>
+        		 	<p:treeTable value="#{lsEventTree.serv3Tree}" var="status" id="serv3Tree" binding="#{serv3Table}" 
+                 		rowStyleClass="#{status.color}" styleClass="hide-column-names">
+                 			<p:ajax event="expand" listener="#{lsEventTree.onServ3NodeExpand}"/>  
+        					<p:ajax event="collapse" listener="#{lsEventTree.onServ3NodeCollapse}"/> 
+                 		 
+        		 			<p:column>  
+					            <h:panelGroup id="eventCol">#{status.event}</h:panelGroup>  
+					        </p:column>  
+					        <p:column>  
+					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
+					        </p:column>
+					        <p:column styleClass="clipboard">
+					        	<button data-clipboard-text="#{status.event} - #{checkboxBean.serverThree.serverName} - #{status.waypoint}" class="clipbutton"></button>
+					        </p:column>
+        		 	</p:treeTable>
+        		 </p:panel>
+        	</p:dashboard>
+        </h:form>
+        </p:layoutUnit>
+        <p:layoutUnit id="east" position="east" header="Checkboxes" size="#{checkboxBean.eastSize}" collapsed="#{checkboxBean.eastCollapsed}" 
+        	closable="false" collapsible="true" resizable="true">
+        	<h:form id="checkboxes">
+        		
+		        <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+		        	<h:outputText value="Level Range: " />
+		        	<p:inputText id="lowLevelBound" value="#{checkboxBean.lowLevelBound}" size="5"
+		        		onkeypress="if (event.keyCode == 13) {jQuery('#lowLevelBound').trigger('change'); return false; }" >
+		        		<p:ajax event="change" update=":form:serv1Panel, :form:serv2Panel, :form:serv3Panel" listener="#{checkboxBean.handleLevelRangeChange}" />
+		        	</p:inputText>
+		        	<p:inputText id="highLevelBound" value="#{checkboxBean.highLevelBound}"  size="5"
+						onkeypress="if (event.keyCode == 13) {jQuery('#highLevelBound').trigger('change'); return false; }" >
+		        		<p:ajax event="change" update=":form:serv1Panel, :form:serv2Panel, :form:serv3Panel" listener="#{checkboxBean.handleLevelRangeChange}" />
+		        	</p:inputText>  
+		        </h:panelGrid>
+		        
+		        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+		        	<h:outputText value="Server 1: " />  
+			        <p:selectOneMenu id="serv1SM" value="#{checkboxBean.serverOne}" converter="serverConverter">
+			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv1Panel, :checkboxes:serv1SM"/>
+			        	<f:selectItems value="#{checkboxBean.serverIds}" var="server" itemLabel="#{server.serverName}" itemValue="#{server}"/>  
+			        </p:selectOneMenu>
+			        <h:outputText value="Server 2: " />  
+			        <p:selectOneMenu id="serv2SM" value="#{checkboxBean.serverTwo}" converter="serverConverter">
+			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv2Panel, :checkboxes:serv2SM" />
+			        	<f:selectItems value="#{checkboxBean.serverIds}" var="server" itemLabel="#{server.serverName}" itemValue="#{server}"/>  
+			        </p:selectOneMenu>
+			        <h:outputText value="Server 3: " />  
+			        <p:selectOneMenu id="serv3SM" value="#{checkboxBean.serverThree}" converter="serverConverter">
+			        	<p:ajax listener="#{checkboxBean.handleServChange}" update=":form:serv3Panel, :checkboxes:serv3SM" />
+			        	<f:selectItems value="#{checkboxBean.serverIds}" var="server" itemLabel="#{server.serverName}" itemValue="#{server}"/>  
+			        </p:selectOneMenu>
+			        
+			        <h:outputText value="Theme: " />  
+			        <p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:165px" effect="fade" id="statefulSwitcher">  
+			            <f:selectItem itemLabel="Choose Theme" itemValue="" />  
+			            <f:selectItems value="#{themeSwitcherBean.themes}" />  
+			            <p:ajax listener="#{themeSwitcherBean.saveTheme}" />  
+			        </p:themeSwitcher>  
+			    </h:panelGrid>
+        	</h:form>
+        </p:layoutUnit>
+        </p:layout>  
+    </h:body>
+</html>

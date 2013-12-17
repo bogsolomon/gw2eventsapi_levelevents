@@ -26,7 +26,7 @@
         <h:form id="form">
             	
             <p:poll interval="30"   
-            	listener="#{ajaxPollTree.updateEventStatus(serv1Table, serv2Table, serv3Table)}" 
+            	listener="#{ajaxPollTree.updateEventStatus(serv1Table, serv2Table, serv3Table, false)}" 
             	widgetVar="pollTemple" autoStart="true"/>
             	
         	<p:dashboard id="board" model="#{serverDashboardBean.model}">
@@ -46,7 +46,7 @@
 					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 					        </p:column>
 					        <p:column styleClass="clipboard">
-					        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+					        	<button data-clipboard-text="#{status.event} - #{checkboxBean.serverOne.serverName} - #{status.waypoint}" class="clipbutton"></button>
 					        </p:column>
         		 	</p:treeTable>
         		 </p:panel>
@@ -65,7 +65,7 @@
 					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 					        </p:column>
 					        <p:column styleClass="clipboard">
-					        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+					        	<button data-clipboard-text="#{status.event} - #{checkboxBean.serverTwo.serverName} - #{status.waypoint}" class="clipbutton"></button>
 					        </p:column>
         		 	</p:treeTable>
         		 </p:panel>
@@ -84,7 +84,7 @@
 					            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 					        </p:column>
 					        <p:column styleClass="clipboard">
-					        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+					        	<button data-clipboard-text="#{status.event} - #{checkboxBean.serverThree.serverName} - #{status.waypoint}" class="clipbutton"></button>
 					        </p:column>
         		 	</p:treeTable>
         		 </p:panel>

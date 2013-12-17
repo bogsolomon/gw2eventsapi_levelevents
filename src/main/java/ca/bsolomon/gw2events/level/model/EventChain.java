@@ -7,14 +7,18 @@ public class EventChain {
 	private final String chainName;
 	private final String mapId;
 	private final List<EventState> eventStates;
+	private final String eventClass;
+	private final boolean livingStoryEvent; 
 	
 	private int fHashCode;
 
 	public EventChain(String chainName, String mapId,
-			List<EventState> eventStates) {
+			List<EventState> eventStates, String eventClass, boolean livingStoryEvent) {
 		this.chainName = chainName;
 		this.mapId = mapId;
 		this.eventStates = eventStates;
+		this.eventClass = eventClass;
+		this.livingStoryEvent = livingStoryEvent;
 	}
 
 	public String getChainName() {
@@ -51,5 +55,13 @@ public class EventChain {
 		}
 		
 		return fHashCode;
+	}
+
+	public String getEventClass() {
+		return eventClass;
+	}
+
+	public boolean isLivingStoryEvent() {
+		return livingStoryEvent;
 	}
 }

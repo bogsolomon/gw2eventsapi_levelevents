@@ -48,7 +48,7 @@
 						            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 						        </p:column>
 						        <p:column styleClass="clipboard">
-						        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+						        	<button data-clipboard-text="#{checkboxBean.serverOne.serverName} - #{status.waypoint}" class="clipbutton"></button>
 						        </p:column>
 				    		</p:dataTable>
 			    		</p:tab>
@@ -67,7 +67,7 @@
 						            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 						        </p:column>
 						        <p:column styleClass="clipboard">
-						        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+						        	<button data-clipboard-text="#{checkboxBean.serverTwo.serverName} - #{status.waypoint}" class="clipbutton"></button>
 						        </p:column>
 				    		</p:dataTable>
 			    		</p:tab>
@@ -86,7 +86,7 @@
 						            <h:panelGroup id="statusCol">#{status.status}</h:panelGroup>  
 						        </p:column>
 						        <p:column styleClass="clipboard">
-						        	<button data-clipboard-text="#{status.waypoint}" class="clipbutton"></button>
+						        	<button data-clipboard-text="#{checkboxBean.serverThree.serverName} - #{status.waypoint}" class="clipbutton"></button>
 						        </p:column>
 				    		</p:dataTable>
 			    		</p:tab>

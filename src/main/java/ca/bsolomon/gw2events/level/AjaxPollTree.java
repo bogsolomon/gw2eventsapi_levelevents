@@ -9,7 +9,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import org.omnifaces.util.Ajax;
-import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.treetable.TreeTable;
 
 import ca.bsolomon.gw2event.api.GW2EventsAPI;
@@ -33,13 +32,13 @@ public class AjaxPollTree {
 	private Server serv2;
 	private Server serv3;
 	
-	public void updateEventStatus(TreeTable serv1Table, TreeTable serv2Table, TreeTable serv3Table) {
+	public void updateEventStatus(TreeTable serv1Table, TreeTable serv2Table, TreeTable serv3Table, Boolean livingStory) {
 		if (serv1 == null)
 			serv1 = checkboxBean.getServerOne();
 				
 		if (serv1 != null) {
 			for (LiveEventState status:serv1.getEventChains()) {
-				if (!checkboxBean.getSelectedEvents().contains(status.getEvent())) {
+				if (!checkboxBean.getSelectedEvents().contains(status.getEvent()) && status.isLivingStoryEvent() == livingStory) {
 					MapInfo info = ConfigReader.maps.get(status.getMapId());
 					
 					if ((info.getLowLevelRange() >= checkboxBean.getLowLevelBound() &&
@@ -98,11 +97,13 @@ public class AjaxPollTree {
 						
 						String mapName = GW2EventsAPI.mapIdToName.get(evStat.getMapId());
 						
-						if (evStat.isSingleEvent()) {
+						if (evStat.getEventClass() != null) {
+							mapName = evStat.getEventClass();
+						} else if (evStat.isSingleEvent()) {
 							mapName = mapName +" - Single";
 						}
 						
-						LiveEventState search = new LiveEventState("", null, mapName, "", 0, "", false);
+						LiveEventState search = new LiveEventState("", null, mapName, "", 0, "", false, null, false);
 						if (selectedMaps.contains(search) || !knownMaps.contains(mapName)) {
 							toUpdate = true;
 							
@@ -121,11 +122,13 @@ public class AjaxPollTree {
 					eventMap.put(keyName, evStat);
 					String mapName = GW2EventsAPI.mapIdToName.get(evStat.getMapId());
 					
-					if (evStat.isSingleEvent()) {
+					if (evStat.getEventClass() != null) {
+						mapName = evStat.getEventClass();
+					} else if (evStat.isSingleEvent()) {
 						mapName = mapName +" - Single";
 					}
 					
-					LiveEventState search = new LiveEventState("", null, mapName, "", 0, "", false);
+					LiveEventState search = new LiveEventState("", null, mapName, "", 0, "", false, null, false);
 					if (selectedMaps.contains(search) || !knownMaps.contains(mapName)) {
 						toUpdate = true;
 						

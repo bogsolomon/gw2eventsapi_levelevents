@@ -73,9 +73,11 @@ public class LevelingEventBean {
 								info.getHighLevelRange() <= checkboxBean.getHighLevelBound())) {
 						String mapName = GW2EventsAPI.mapIdToName.get(info.getMapId());
 						
-						if (event.isSingleEvent()) {
+						if (event.getEventClass() != null) {
+							mapName = event.getEventClass();
+						} else if (event.isSingleEvent()) {
 							mapName = mapName+" - Single";
-						}
+						} 
 						
 						boolean added = false;
 						

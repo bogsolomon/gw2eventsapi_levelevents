@@ -92,11 +92,22 @@ public class ConfigReader {
 			List<String> fileLines = Files.readAllLines(file, Charset.defaultCharset());
 			
 			if (fileLines!=null && fileLines.size() > 2) {
-				String chainName = fileLines.get(0);
+				String[] splitString = fileLines.get(0).split("\\|");
+				
+				String chainName = splitString[0];
+				String eventClass = null;
+				boolean isLivingStoryEvent = false;
+				
+				if (splitString.length > 1)
+					eventClass = splitString[1];
+				
+				if (splitString.length > 2)
+					isLivingStoryEvent = Boolean.parseBoolean(splitString[2]);
+				
 				String mapId = fileLines.get(1);
 				
 				readInProcess = true;
-				generateChainData(chainName, mapId, fileLines.subList(2, fileLines.size()));
+				generateChainData(chainName, eventClass, isLivingStoryEvent, mapId, fileLines.subList(2, fileLines.size()));
 				readInProcess = false;
 			}
 		} catch (IOException e) {
@@ -104,13 +115,13 @@ public class ConfigReader {
 		}
 	}
 
-	private static void generateChainData(String chainName, String mapId,
-			List<String> subList) {
+	private static void generateChainData(String chainName, String eventClass,
+			boolean isLivingStoryEvent, String mapId, List<String> subList) {
 		if (!queriedMapIds.contains(mapId)) {
 			queriedMapIds.add(mapId);
 		}
 		
-		EventChain chain = new EventChain(chainName, mapId, new ArrayList<EventState>());
+		EventChain chain = new EventChain(chainName, mapId, new ArrayList<EventState>(), eventClass, isLivingStoryEvent);
 		
 		for (String eventStateStr:subList) {
 			if (eventStateStr.length() == 0)

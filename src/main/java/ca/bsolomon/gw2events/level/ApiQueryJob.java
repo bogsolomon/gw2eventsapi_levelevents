@@ -83,24 +83,24 @@ public class ApiQueryJob implements Job {
 			
 			switch (type) {
 				case AND : 
-					processAndCondition(state, data, chain.getChainName(), time, chain.getMapId(), singleEvent); 
+					processAndCondition(state, data, chain.getChainName(), time, chain.getMapId(), singleEvent, chain.getEventClass(), chain.isLivingStoryEvent()); 
 					break;
 				case OR : 
-					processOrCondition(state, data, chain.getChainName(), time, chain.getMapId(), singleEvent); 
+					processOrCondition(state, data, chain.getChainName(), time, chain.getMapId(), singleEvent, chain.getEventClass(), chain.isLivingStoryEvent()); 
 					break;
 				case COUNT :
-					processCountCondition(state, data, chain.getChainName(), time, chain.getMapId(), singleEvent); 
+					processCountCondition(state, data, chain.getChainName(), time, chain.getMapId(), singleEvent, chain.getEventClass(), chain.isLivingStoryEvent()); 
 					break;
 				case COUNT_END :
-					processCountEndCondition(state, chain.getChainName(), time, chain.getMapId(), singleEvent); 
+					processCountEndCondition(state, chain.getChainName(), time, chain.getMapId(), singleEvent, chain.getEventClass(), chain.isLivingStoryEvent()); 
 					break;
 				case SEQUENCE_ID : 
-					processSequenceIdCondition(state, data, chain.getChainName(), time, chain.getMapId(), singleEvent); 
+					processSequenceIdCondition(state, data, chain.getChainName(), time, chain.getMapId(), singleEvent, chain.getEventClass(), chain.isLivingStoryEvent()); 
 					break;
 			}
 		}
 		
-		LiveEventState searchState = new LiveEventState(null, null, chain.getChainName(), null, -1, null, false);
+		LiveEventState searchState = new LiveEventState(null, null, chain.getChainName(), null, -1, null, false, chain.getEventClass(), chain.isLivingStoryEvent());
 		
 		for (ServerID servId:ServerID.values()) {
 			Server serv = serverEvents.get(servId.getUid());
@@ -111,7 +111,7 @@ public class ApiQueryJob implements Job {
 				
 				if (!oldState.getDate().equals(time) && !oldState.getStatus().equals("Not up")) {
 					LiveEventState newState = new LiveEventState("Not up", time, 
-							chain.getChainName(), "Not up", -1, chain.getMapId(), oldState.isSingleEvent());
+							chain.getChainName(), "Not up", -1, chain.getMapId(), oldState.isSingleEvent(), chain.getEventClass(), chain.isLivingStoryEvent());
 					newState.setUpdateDate(time);
 					
 					serv.getEventChains().set(index, newState);
@@ -121,7 +121,7 @@ public class ApiQueryJob implements Job {
 					serverEvents.put(servId.getUid(), new Server(servId));
 				} else {
 					LiveEventState newState = new LiveEventState("Not up", time, 
-							chain.getChainName(), "Not up", -1, chain.getMapId(), (chain.getEventStates().size() == 1));
+							chain.getChainName(), "Not up", -1, chain.getMapId(), (chain.getEventStates().size() == 1), chain.getEventClass(), chain.isLivingStoryEvent());
 					newState.setUpdateDate(time);
 					serverEvents.get(servId.getUid()).getEventChains().add(newState);
 				}
@@ -130,7 +130,7 @@ public class ApiQueryJob implements Job {
 	}
 
 	private void processSequenceIdCondition(EventState state,
-			Map<String, String> data, String chainName, DateTime time, String mapId, boolean singleEvent) {
+			Map<String, String> data, String chainName, DateTime time, String mapId, boolean singleEvent, String eventClass, boolean isLivingStory) {
 		List<EventCondition> conditions = state.getConditions();
 		
 		for (ServerID servId:ServerID.values()) {
@@ -138,7 +138,7 @@ public class ApiQueryJob implements Job {
 			
 			Server serv = serverEvents.get(servId.getUid());
 			
-			LiveEventState searchState = new LiveEventState(null, null, chainName, null, -1, null, false);
+			LiveEventState searchState = new LiveEventState(null, null, chainName, null, -1, null, false, null, false);
 			
 			if (serv.getEventChains().contains(searchState)) {
 				int index = serv.getEventChains().indexOf(searchState);
@@ -161,13 +161,13 @@ public class ApiQueryJob implements Job {
 			}
 			
 			if (conditionMet) {
-				changeChainState(state, chainName, time, servId, mapId, singleEvent);
+				changeChainState(state, chainName, time, servId, mapId, singleEvent, eventClass, isLivingStory);
 			}
 		}
 	}
 
 	private void processCountEndCondition(EventState state, String chainName,
-			DateTime time, String mapId, boolean singleEvent) {
+			DateTime time, String mapId, boolean singleEvent, String eventClass, boolean isLivingStory) {
 		List<EventCondition> conditions = state.getConditions();
 		
 		String maxCount = ((CountEventCondition)conditions.get(0)).getMaxCountValue();
@@ -175,14 +175,14 @@ public class ApiQueryJob implements Job {
 		for (ServerID servId:ServerID.values()) {
 			Server serv = serverEvents.get(servId.getUid());
 			
-			LiveEventState searchState = new LiveEventState(null, null, chainName, null, -1, null, false);
+			LiveEventState searchState = new LiveEventState(null, null, chainName, null, -1, null, false, null, false);
 			
 			if (serv.getEventChains().contains(searchState)) {
 				int index = serv.getEventChains().indexOf(searchState);
 				LiveEventState oldState = serv.getEventChains().get(index);
 				
 				LiveEventState newState = new LiveEventState(oldState.getStatus()+": "+oldState.getCount()+"/"+maxCount, oldState.getDate(), 
-						oldState.getEvent(), state.getWaypoint(), oldState.getSequenceId(), mapId, oldState.isSingleEvent());
+						oldState.getEvent(), state.getWaypoint(), oldState.getSequenceId(), mapId, oldState.isSingleEvent(), eventClass, isLivingStory);
 				newState.setCount(0);
 				newState.setUpdateDate(oldState.getUpdateDate());
 				
@@ -192,7 +192,7 @@ public class ApiQueryJob implements Job {
 	}
 
 	private void processCountCondition(EventState state,
-			Map<String, String> data, String chainName, DateTime time, String mapId, boolean singleEvent) {
+			Map<String, String> data, String chainName, DateTime time, String mapId, boolean singleEvent, String eventClass, boolean isLivingStory) {
 		List<EventCondition> conditions = state.getConditions();
 				
 		for (ServerID servId:ServerID.values()) {
@@ -213,7 +213,7 @@ public class ApiQueryJob implements Job {
 			
 			Server serv = serverEvents.get(servId.getUid());
 			
-			LiveEventState searchState = new LiveEventState(null, null, chainName, null, -1, null, false);
+			LiveEventState searchState = new LiveEventState(null, null, chainName, null, -1, null, false, null, false);
 						
 			if (conditionMet) {
 				if (serv.getEventChains().contains(searchState)) {
@@ -223,14 +223,14 @@ public class ApiQueryJob implements Job {
 					if (oldState.getStatus().equals(state.getOutputText())) {
 						oldState.setCount(oldState.getCount()+1);
 					} else {
-						LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId(), mapId, singleEvent);
+						LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId(), mapId, singleEvent, eventClass, isLivingStory);
 						newState.setCount(1);
 						newState.setUpdateDate(time);
 						
 						serv.getEventChains().set(index, newState);
 					}
 				} else {
-					LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId(), mapId, singleEvent);
+					LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId(), mapId, singleEvent, eventClass, isLivingStory);
 					newState.setCount(1);
 					newState.setUpdateDate(time);
 					serv.getEventChains().add(newState);
@@ -240,7 +240,7 @@ public class ApiQueryJob implements Job {
 	}
 
 	private void processOrCondition(EventState state,
-			Map<String, String> data, String chainName, DateTime time, String mapId, boolean singleEvent) {
+			Map<String, String> data, String chainName, DateTime time, String mapId, boolean singleEvent, String eventClass, boolean isLivingStory) {
 		List<EventCondition> conditions = state.getConditions();
 		
 		for (ServerID servId:ServerID.values()) {
@@ -256,13 +256,13 @@ public class ApiQueryJob implements Job {
 			}
 			
 			if (conditionMet) {
-				changeChainState(state, chainName, time, servId, mapId, singleEvent);
+				changeChainState(state, chainName, time, servId, mapId, singleEvent, eventClass, isLivingStory);
 			}
 		}
 	}
 
 	private void processAndCondition(EventState state,
-			Map<String, String> data, String chainName, DateTime time, String mapId, boolean singleEvent) {
+			Map<String, String> data, String chainName, DateTime time, String mapId, boolean singleEvent, String eventClass, boolean isLivingStory) {
 		List<EventCondition> conditions = state.getConditions();
 		
 		for (ServerID servId:ServerID.values()) {
@@ -278,20 +278,20 @@ public class ApiQueryJob implements Job {
 			}
 			
 			if (conditionMet) {
-				changeChainState(state, chainName, time, servId, mapId, singleEvent);
+				changeChainState(state, chainName, time, servId, mapId, singleEvent, eventClass, isLivingStory);
 			}
 		}
 	}
 
 	private void changeChainState(EventState state, String chainName,
-			DateTime time, ServerID servId, String mapId, boolean singleEvent) {
+			DateTime time, ServerID servId, String mapId, boolean singleEvent, String eventClass, boolean isLivingStory) {
 		if (!serverEvents.containsKey(servId.getUid())) {
 			serverEvents.put(servId.getUid(), new Server(servId));
 		}
 		
 		Server serv = serverEvents.get(servId.getUid());
 		
-		LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId(), mapId, singleEvent);
+		LiveEventState newState = new LiveEventState(state.getOutputText(), time, chainName, state.getWaypoint(), state.getSequenceId(), mapId, singleEvent, eventClass, isLivingStory);
 		
 		if (!serv.getEventChains().contains(newState)) {
 			newState.setUpdateDate(time);

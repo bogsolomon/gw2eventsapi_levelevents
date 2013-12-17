@@ -20,9 +20,9 @@ import ca.bsolomon.gw2events.level.model.MapEvents;
 import ca.bsolomon.gw2events.level.model.MapInfo;
 import ca.bsolomon.gw2events.level.model.Server;
 
-@ManagedBean(name="levelEventTree")
+@ManagedBean(name="lsEventTree")
 @SessionScoped
-public class LevelingEventTree {
+public class LivingStoryEventTree {
 	
 	@ManagedProperty(value="#{checkboxBean}")
 	private CheckboxBean checkboxBean;
@@ -132,7 +132,7 @@ public class LevelingEventTree {
 	private void getServerStates(Server serv, List<MapEvents> retStates) {
 		if (serv!=null) {
 			for (LiveEventState event:serv.getEventChains()) {
-				if (!checkboxBean.getSelectedEvents().contains(event.getEvent()) && !event.isLivingStoryEvent()) {
+				if (!checkboxBean.getSelectedEvents().contains(event.getEvent()) && event.isLivingStoryEvent()) {
 					MapInfo info = ConfigReader.maps.get(event.getMapId());
 					
 					if ((info.getLowLevelRange() >= checkboxBean.getLowLevelBound() &&
