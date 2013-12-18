@@ -77,7 +77,13 @@
         <groupId>org.primefaces.themes</groupId>  
         <artifactId>all-themes</artifactId>  
         <version>1.0.9</version>  
-    </dependency>  
+    </dependency>
+    
+    <dependency>
+		<groupId>com.amazonaws</groupId>
+		<artifactId>aws-java-sdk</artifactId>
+        <version>1.6.9.1</version>  
+    </dependency>    
   </dependencies>
   <build>
     <finalName>gw2events</finalName>

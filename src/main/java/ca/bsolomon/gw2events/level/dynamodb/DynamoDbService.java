@@ -9,6 +9,7 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper.FailedBatch;
 
 public class DynamoDbService {
 
@@ -33,5 +34,13 @@ public class DynamoDbService {
 	
 	public MapInfo getMapById(int mapId) {
 		return MapLevelDao.getMapById(mapper, mapId);
+	}
+	
+	public void saveMap(MapInfo map) {
+		MapLevelDao.saveMap(mapper, map);
+	}
+	
+	public void batchSaveMaps(List<MapInfo> maps) {
+		MapLevelDao.batchSaveMap(mapper, maps);
 	}
 }
